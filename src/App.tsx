@@ -16,7 +16,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
 import InfoIcon from '@mui/icons-material/Info';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { ReactRoutes } from './routes/ReactRoutes';
+import { AppRoutes } from './routes/AppRoutes';
 
 const theme = createTheme({
   palette: {
@@ -60,7 +60,7 @@ export function App() {
         </AppBar>
 
         <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
-          <List>
+          <List disablePadding>
             <ListItemButton
               component={Link}
               to="/"
@@ -81,9 +81,19 @@ export function App() {
               </ListItemIcon>
               <ListItemText primary="About me" />
             </ListItemButton>
+            <ListItemButton
+              component={Link}
+              to="/user"
+              onClick={toggleDrawer(false)}
+            >
+              <ListItemIcon>
+                <InfoIcon />
+              </ListItemIcon>
+              <ListItemText primary="User" />
+            </ListItemButton>
           </List>
         </Drawer>
-        <ReactRoutes />
+        <AppRoutes />
       </Router>
     </ThemeProvider>
   );
