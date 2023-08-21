@@ -8,6 +8,7 @@ export const MainPage = () => {
         backgroundImage: `url(${bg})`,
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
         height: '87vh',
       }}
     />
