@@ -2,6 +2,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -45,6 +46,7 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [{ from: 'public/favicon.png', to: 'favicon.png' }],
     }),
+    new Dotenv(),
   ],
   devServer: {
     static: ['./dist', './public'],

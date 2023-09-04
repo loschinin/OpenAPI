@@ -15,25 +15,18 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
 import InfoIcon from '@mui/icons-material/Info';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import NewspaperIcon from '@mui/icons-material/Newspaper';
 import { AppRoutes } from './routes/AppRoutes';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { MuiThemeProvider } from './MuiThemeProvider';
 
-const theme = createTheme({
-  palette: {
-    mode: 'dark',
-  },
-  components: {
-    MuiCssBaseline: {
-      styleOverrides: {
-        body: {
-          margin: 0,
-          padding: 0,
-        },
-      },
-    },
-  },
-});
+const routes = [
+  { name: 'Home', link: '/', icon: <HomeIcon /> },
+  { name: 'News', link: 'news', icon: <NewspaperIcon /> },
+  { name: 'About', link: '/about', icon: <InfoIcon /> },
+];
 
+const queryClient = new QueryClient();
 export function App() {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -42,8 +35,9 @@ export function App() {
   };
 
   return (
-    <ThemeProvider theme={theme}>
+    <MuiThemeProvider>
       <CssBaseline />
+
       <Router>
         <AppBar position="sticky">
           <Toolbar sx={{ gap: 2 }}>
@@ -61,40 +55,24 @@ export function App() {
 
         <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
           <List disablePadding>
-            <ListItemButton
-              component={Link}
-              to="/"
-              onClick={toggleDrawer(false)}
-            >
-              <ListItemIcon>
-                <HomeIcon />
-              </ListItemIcon>
-              <ListItemText primary="Home" />
-            </ListItemButton>
-            <ListItemButton
-              component={Link}
-              to="/about"
-              onClick={toggleDrawer(false)}
-            >
-              <ListItemIcon>
-                <InfoIcon />
-              </ListItemIcon>
-              <ListItemText primary="About me" />
-            </ListItemButton>
-            <ListItemButton
-              component={Link}
-              to="/user"
-              onClick={toggleDrawer(false)}
-            >
-              <ListItemIcon>
-                <InfoIcon />
-              </ListItemIcon>
-              <ListItemText primary="User" />
-            </ListItemButton>
+            {routes.map(({ link, icon, name }) => (
+              <ListItemButton
+                key={name}
+                component={Link}
+                to={link}
+                onClick={toggleDrawer(false)}
+              >
+                <ListItemIcon>{icon}</ListItemIcon>
+                <ListItemText primary={name} />
+              </ListItemButton>
+            ))}
           </List>
         </Drawer>
-        <AppRoutes />
+
+        <QueryClientProvider client={queryClient}>
+          <AppRoutes />
+        </QueryClientProvider>
       </Router>
-    </ThemeProvider>
+    </MuiThemeProvider>
   );
 }
